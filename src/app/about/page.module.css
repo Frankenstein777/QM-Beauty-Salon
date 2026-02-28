@@ -1,0 +1,178 @@
+.container {
+    min-height: 100vh;
+}
+
+.hero {
+    height: 60vh;
+    background-color: var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/placeholder-hero.jpg');
+    /* Placeholder */
+    background-size: cover;
+    background-position: center;
+}
+
+.heroContent {
+    animation: fadeIn 1s ease-out;
+}
+
+.title {
+    font-size: 5rem;
+    color: var(--white);
+    margin-bottom: 20px;
+}
+
+.gold {
+    color: var(--gold);
+    font-style: italic;
+}
+
+.subtitle {
+    font-family: var(--font-montserrat);
+    font-size: 1.5rem;
+    color: var(--gray-light);
+    font-weight: 300;
+}
+
+/* Story section */
+.storySection,
+.philosophySection {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    min-height: 80vh;
+}
+
+.storyContent,
+.philosophyContent {
+    padding: 80px;
+}
+
+.storyImage,
+.philosophyImage {
+    height: 100%;
+    min-height: 600px;
+    background-color: var(--gray-light);
+    background-size: cover;
+    background-position: center;
+}
+
+.storyImage {
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 30h30v30h-30z' fill='%23d4af37' fill-opacity='0.05'/%3E%3C/svg%3E");
+}
+
+.philosophySection {
+    background-color: var(--black);
+    color: var(--white);
+}
+
+.philosophySection .sectionTitle {
+    color: var(--white);
+}
+
+.philosophySection .text {
+    color: var(--gray-light);
+}
+
+.sectionTitle {
+    font-size: 3rem;
+    margin-bottom: 30px;
+    color: var(--black);
+}
+
+.divider {
+    width: 80px;
+    height: 4px;
+    background-color: var(--gold);
+    margin-bottom: 40px;
+}
+
+.text {
+    font-family: var(--font-montserrat);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--gray-dark);
+    margin-bottom: 20px;
+    max-width: 600px;
+}
+
+/* Team */
+.teamSection {
+    padding: 100px 40px;
+    text-align: center;
+    background-color: var(--white);
+}
+
+.teamGrid {
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
+}
+
+.teamMember {
+    max-width: 400px;
+}
+
+.memberImage {
+    width: 300px;
+    height: 400px;
+    background-color: var(--gray-light);
+    margin: 0 auto 30px;
+    border: 1px solid var(--gray-light);
+}
+
+.memberName {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.memberRole {
+    font-family: var(--font-montserrat);
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 900px) {
+
+    .storySection,
+    .philosophySection {
+        grid-template-columns: 1fr;
+    }
+
+    .hero {
+        height: 50vh;
+    }
+
+    .title {
+        font-size: 3rem;
+    }
+
+    .storyContent,
+    .philosophyContent {
+        padding: 60px 40px;
+        order: 1;
+    }
+
+    .storyImage,
+    .philosophyImage {
+        min-height: 400px;
+        order: 0;
+    }
+}

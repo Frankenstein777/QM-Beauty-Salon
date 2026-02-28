@@ -1,0 +1,221 @@
+.container {
+    min-height: 100vh;
+    padding-top: var(--header-height);
+    background-color: var(--white);
+}
+
+.header {
+    background-color: var(--gray-light);
+    padding: 80px 20px 60px;
+    text-align: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.headerContent {
+    max-width: 800px;
+    margin: 0 auto;
+    animation: fadeIn 0.8s ease-out;
+}
+
+.title {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    color: var(--black);
+}
+
+.subtitle {
+    font-family: var(--font-montserrat);
+    color: var(--gray-dark);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.content {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 80px 40px;
+}
+
+.categorySection {
+    margin-bottom: 100px;
+}
+
+.categoryHeader {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.categoryTitle {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    color: var(--black);
+    position: relative;
+    display: inline-block;
+}
+
+.categoryTitle::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background-color: var(--gold);
+    margin: 15px auto 0;
+}
+
+.categoryDesc {
+    font-family: var(--font-montserrat);
+    color: var(--gray-medium);
+    font-size: 1rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 40px;
+}
+
+.card {
+    background-color: var(--white);
+    border: 1px solid var(--gray-light);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    border-color: var(--gold);
+}
+
+.imageContainer {
+    width: 100%;
+    height: 250px;
+    position: relative;
+    overflow: hidden;
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.5s ease;
+}
+
+.card:hover .image {
+    transform: scale(1.1);
+}
+
+.priceTag {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: var(--black);
+    color: var(--gold);
+    padding: 10px 20px;
+    font-family: var(--font-montserrat);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.cardBody {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.itemName {
+    font-family: var(--font-playfair);
+    font-size: 1.5rem;
+    color: var(--black);
+    margin-bottom: 15px;
+}
+
+.description {
+    color: var(--gray-dark);
+    margin-bottom: 20px;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    font-family: var(--font-montserrat);
+    flex-grow: 1;
+}
+
+.divider {
+    height: 1px;
+    background-color: var(--gray-light);
+    margin: 10px 0 20px;
+}
+
+.features {
+    list-style: none;
+    margin-bottom: 30px;
+}
+
+.feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 12px;
+    color: var(--gray-medium);
+    font-size: 0.9rem;
+    font-family: var(--font-montserrat);
+}
+
+.checkIcon {
+    color: var(--gold);
+    margin-top: 3px;
+    flex-shrink: 0;
+}
+
+/* CTA Section */
+.ctaSection {
+    text-align: center;
+    background-color: var(--black);
+    color: var(--white);
+    padding: 80px 40px;
+    margin-top: 40px;
+}
+
+.ctaSection h2 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    color: var(--white);
+}
+
+.ctaSection p {
+    font-family: var(--font-montserrat);
+    color: var(--gray-light);
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .title {
+        font-size: 2.5rem;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ctaSection h2 {
+        font-size: 2rem;
+    }
+}

@@ -1,0 +1,125 @@
+.container {
+    min-height: 100vh;
+    padding-top: var(--header-height);
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-bottom: 100px;
+}
+
+.layout {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 80px;
+    margin-top: 60px;
+}
+
+.sectionTitle {
+    font-family: var(--font-playfair);
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--gray-light);
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.group label {
+    font-family: var(--font-montserrat);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--gray-dark);
+}
+
+.input {
+    padding: 12px;
+    border: 1px solid var(--gray-light);
+    border-radius: 4px;
+    font-family: var(--font-montserrat);
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.input:focus {
+    border-color: var(--black);
+}
+
+.paymentPlaceholder {
+    background-color: var(--gray-light);
+    padding: 40px;
+    text-align: center;
+    border-radius: 8px;
+    color: var(--gray-dark);
+    font-family: var(--font-montserrat);
+    font-style: italic;
+}
+
+/* Summary */
+.summaryCard {
+    background-color: var(--gray-light);
+    padding: 40px;
+    position: sticky;
+    top: 120px;
+}
+
+.summaryCard h3 {
+    font-family: var(--font-playfair);
+    font-size: 1.5rem;
+    margin-bottom: 25px;
+}
+
+.summaryItem {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-family: var(--font-montserrat);
+    font-size: 0.9rem;
+    color: var(--gray-dark);
+}
+
+.divider {
+    height: 1px;
+    background-color: #ddd;
+    margin: 20px 0;
+}
+
+.summaryTotal {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-montserrat);
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--black);
+}
+
+@media (max-width: 900px) {
+    .layout {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+
+    .summarySection {
+        order: -1;
+    }
+
+    .summaryCard {
+        position: static;
+    }
+}

@@ -1,0 +1,238 @@
+.toggleBtn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--black);
+    color: var(--gold);
+    border: 2px solid var(--gold);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 9999;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.toggleBtn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+}
+
+.toggleBtn.active {
+    transform: rotate(90deg);
+    background-color: var(--white);
+    color: var(--black);
+    border-color: var(--black);
+}
+
+.chatWindow {
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    width: 350px;
+    height: 500px;
+    background-color: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--gray-light);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 9998;
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.chatWindow.open {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: all;
+}
+
+.header {
+    background-color: var(--black);
+    color: var(--white);
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.avatar {
+    width: 35px;
+    height: 35px;
+    background-color: var(--gold);
+    color: var(--black);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-playfair);
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.headerInfo h3 {
+    font-size: 1rem;
+    margin: 0;
+    font-family: var(--font-playfair);
+}
+
+.headerInfo p {
+    font-size: 0.75rem;
+    color: var(--gray-light);
+    margin: 0;
+    font-family: var(--font-montserrat);
+}
+
+.closeBtn {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: var(--white);
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.closeBtn:hover {
+    opacity: 1;
+}
+
+.messagesArea {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #fafafa;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.message {
+    max-width: 80%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    font-family: var(--font-montserrat);
+    position: relative;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.message.bot {
+    background-color: var(--white);
+    color: var(--black);
+    border: 1px solid var(--gray-light);
+    align-self: flex-start;
+    border-bottom-left-radius: 2px;
+}
+
+.message.user {
+    background-color: var(--black);
+    color: var(--white);
+    align-self: flex-end;
+    border-bottom-right-radius: 2px;
+}
+
+/* Typing Indicator */
+.typing {
+    display: flex;
+    gap: 4px;
+    padding: 12px 14px;
+    width: fit-content;
+}
+
+.typing span {
+    width: 6px;
+    height: 6px;
+    background-color: var(--gray-medium);
+    border-radius: 50%;
+    animation: bounce 1s infinite;
+}
+
+.typing span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+.optionsArea {
+    padding: 15px;
+    background-color: var(--white);
+    border-top: 1px solid var(--gray-light);
+}
+
+.optionsGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.optionBtn {
+    background-color: transparent;
+    border: 1px solid var(--gold);
+    color: var(--black);
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-family: var(--font-montserrat);
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.optionBtn:hover {
+    background-color: var(--gold);
+    color: var(--black);
+    border-color: var(--gold);
+}
+
+.optionBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-4px);
+    }
+}
+
+@media (max-width: 480px) {
+    .chatWindow {
+        width: calc(100% - 40px);
+        right: 20px;
+        bottom: 90px;
+        height: 60vh;
+    }
+}

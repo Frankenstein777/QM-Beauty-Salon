@@ -1,0 +1,84 @@
+:root {
+  /* Luxury Palette */
+  --black: #000000;
+  --white: #FFFFFF;
+  --gold: #D4AF37;
+  --gray-light: #F5F5F5;
+  --gray-medium: #888888;
+  --gray-dark: #333333;
+
+  /* Semantic Aliases */
+  --background: var(--white);
+  --foreground: var(--black);
+  --accent: var(--gold);
+
+  /* Layout */
+  --container-width: 1400px;
+  --header-height: 90px;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-montserrat), sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-playfair), serif;
+  font-weight: 700;
+  color: var(--black);
+  line-height: 1.2;
+}
+
+button,
+.btn {
+  font-family: var(--font-poppins), sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+/* Scrollbar Integration */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--white);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gray-medium);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold);
+}

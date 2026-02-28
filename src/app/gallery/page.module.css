@@ -1,0 +1,120 @@
+.container {
+    min-height: 100vh;
+    padding-top: 80px;
+    background-color: var(--black);
+    color: var(--white);
+}
+
+.header {
+    padding: 80px 20px 40px;
+    text-align: center;
+}
+
+.title {
+    font-family: var(--font-playfair);
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    color: var(--gold);
+}
+
+.subtitle {
+    font-family: var(--font-inter);
+    color: var(--gray-100);
+    font-size: 1.1rem;
+}
+
+.galleryGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.galleryItem {
+    position: relative;
+    aspect-ratio: 1 / 1.2;
+    overflow: hidden;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: var(--charcoal);
+    border: 1px solid #333;
+}
+
+.imagePlaceholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--charcoal) 0%, #1a1a1a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.5s ease;
+}
+
+.galleryItem:hover .imagePlaceholder {
+    transform: scale(1.05);
+}
+
+.categoryTag {
+    background-color: rgba(212, 175, 55, 0.2);
+    color: var(--gold);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-family: var(--font-inter);
+    font-size: 0.9rem;
+    border: 1px solid var(--gold);
+}
+
+.overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    display: flex;
+    align-items: flex-end;
+}
+
+.galleryItem:hover .overlay {
+    transform: translateY(0);
+}
+
+.imageCaption {
+    color: var(--white);
+    font-family: var(--font-playfair);
+    font-size: 1.2rem;
+}
+
+.instagramCta {
+    text-align: center;
+    padding: 60px 20px;
+    font-family: var(--font-inter);
+    color: var(--gray-100);
+}
+
+.igLink {
+    color: var(--gold);
+    font-weight: 600;
+    font-size: 1.2rem;
+    display: block;
+    margin-top: 10px;
+}
+
+.igLink:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .galleryGrid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 10px;
+    }
+
+    .title {
+        font-size: 2.5rem;
+    }
+}
