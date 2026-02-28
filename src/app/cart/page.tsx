@@ -44,7 +44,7 @@ export default function CartPage() {
                                     <div className={styles.details}>
                                         <h3>{item.name}</h3>
                                         <p className={styles.variant}>{item.color} / {item.size}</p>
-                                        <p className={styles.unitPrice}>₦{item.price.toLocaleString()}</p>
+                                        <p className={styles.unitPrice}>${item.price.toLocaleString()}</p>
                                     </div>
                                 </div>
 
@@ -55,7 +55,7 @@ export default function CartPage() {
                                 </div>
 
                                 <div className={styles.itemTotal}>
-                                    <p>₦{(item.price * item.quantity).toLocaleString()}</p>
+                                    <p>${(item.price * item.quantity).toLocaleString()}</p>
                                     <button className={styles.removeBtn} onClick={() => removeFromCart(item.id)}>
                                         <Trash2 size={16} />
                                     </button>
@@ -75,15 +75,15 @@ export default function CartPage() {
                         <h2 className={styles.summaryTitle}>Order Summary</h2>
                         <div className={styles.summaryRow}>
                             <span>Subtotal</span>
-                            <span>₦{subtotal.toLocaleString()}</span>
+                            <span>${subtotal.toLocaleString()}</span>
                         </div>
                         <div className={styles.summaryRow}>
                             <span>Shipping (Est.)</span>
-                            <span>₦{shipping.toLocaleString()}</span>
+                            <span>${shipping.toLocaleString()}</span>
                         </div>
                         <div className={`${styles.summaryRow} ${styles.totalRow}`}>
                             <span>Total</span>
-                            <span>₦{total.toLocaleString()}</span>
+                            <span>${total.toLocaleString()}</span>
                         </div>
                         <Button variant="primary" size="lg" fullWidth href="/checkout">
                             Proceed to Checkout

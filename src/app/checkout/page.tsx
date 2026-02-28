@@ -54,13 +54,13 @@ export default function CheckoutPage() {
         cartItems.forEach(item => {
             const variantInfo = [item.color, item.size].filter(Boolean).join(" / ");
             const extra = variantInfo ? ` (${variantInfo})` : "";
-            message += `- ${item.quantity}x ${item.name}${extra} (₦${(item.price * item.quantity).toLocaleString()})\n`;
+            message += `- ${item.quantity}x ${item.name}${extra} ($${(item.price * item.quantity).toLocaleString()})\n`;
         });
 
         message += `\n*Order Summary*\n`;
-        message += `Subtotal: ₦${subtotal.toLocaleString()}\n`;
-        message += `Shipping: ₦${shipping.toLocaleString()}\n`;
-        message += `*Total: ₦${total.toLocaleString()}*\n\n`;
+        message += `Subtotal: $${subtotal.toLocaleString()}\n`;
+        message += `Shipping: $${shipping.toLocaleString()}\n`;
+        message += `*Total: $${total.toLocaleString()}*\n\n`;
         message += `Please confirm my order and share payment instructions.`;
 
         const waLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
@@ -124,7 +124,7 @@ export default function CheckoutPage() {
                         </div>
 
                         <Button type="submit" variant="primary" size="lg" fullWidth style={{ marginTop: "30px" }}>
-                            Proceed to WhatsApp (₦{total.toLocaleString()})
+                            Proceed to WhatsApp (${total.toLocaleString()})
                         </Button>
                     </form>
                 </div>
@@ -137,7 +137,7 @@ export default function CheckoutPage() {
                             cartItems.map((item) => (
                                 <div key={item.id} className={styles.summaryItem}>
                                     <span>{item.name} x {item.quantity}</span>
-                                    <span>₦{(item.price * item.quantity).toLocaleString()}</span>
+                                    <span>${(item.price * item.quantity).toLocaleString()}</span>
                                 </div>
                             ))
                         ) : (
@@ -148,7 +148,7 @@ export default function CheckoutPage() {
                         <div className={styles.divider}></div>
                         <div className={styles.summaryTotal}>
                             <span>Total</span>
-                            <span>₦{total.toLocaleString()}</span>
+                            <span>${total.toLocaleString()}</span>
                         </div>
                     </div>
                 </div>

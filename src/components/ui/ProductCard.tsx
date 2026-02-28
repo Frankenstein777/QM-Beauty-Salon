@@ -28,7 +28,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
     const { addToCart } = useCart();
 
     const handleAddToCart = () => {
-        // Simple price parser to numeric. e.g "₦15,000" -> 15000
+        // Simple price parser to numeric. e.g "$150" -> 150
         const numericPrice = parseFloat(price.replace(/[^0-9.-]+/g, "")) || 0;
 
         addToCart({

@@ -56,7 +56,7 @@ export default function AboutPage() {
                 <h2 className={styles.sectionTitle}>The Face Behind the Brand</h2>
                 <div className={styles.teamGrid}>
                     <div className={styles.teamMember}>
-                        <div className={styles.memberImage} style={{ backgroundImage: "url('/CEO picture.jpg')" }}></div>
+                        <div className={styles.memberImage} style={{ backgroundImage: "url('/Face behind the brand.jpg')" }}></div>
                         <h3 className={styles.memberName}>Queen Mary</h3>
                         <p className={styles.memberRole}>Founder & Lead Stylist</p>
                     </div>

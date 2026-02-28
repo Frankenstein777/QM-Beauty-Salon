@@ -29,7 +29,7 @@ const serviceCategories: ServiceCategory[] = [
             {
                 id: "auto-gele-basic",
                 name: "Standard AutoGele",
-                price: "₦5,000",
+                price: "$15",
                 description: "Pre-styled gele that is easy to wear and fully adjustable. Available in various fabrics including Asooke and Damask.",
                 features: ["Custom fabric choice", "Adjustable velcro strap", "Secure fit", "Reusable"],
                 image: "/Autogele 1.png"
@@ -37,10 +37,10 @@ const serviceCategories: ServiceCategory[] = [
             {
                 id: "bridal-gele",
                 name: "Bridal Gele Styling",
-                price: "From ₦15,000",
+                price: "From $40",
                 description: "Exquisite, intricate gele styling specifically designed for brides. Includes on-site styling service.",
                 features: ["On-site styling", "Intricate multi-layer design", "Accessory placement", "Consultation included"],
-                image: "/Autogele 2.png"
+                image: "/Autogele 3.png"
             }
         ]
     },
@@ -52,18 +52,18 @@ const serviceCategories: ServiceCategory[] = [
             {
                 id: "soft-glam",
                 name: "Soft Glam",
-                price: "₦15,000",
+                price: "$40",
                 description: "A natural, radiant look perfect for daytime events, photoshoots, or guests.",
                 features: ["Skin prep & priming", "Light contouring", "Neutral eye look", "Premium lashes included"],
-                image: "/makeup 1.jpg"
+                image: "/lashes 5.jpg"
             },
             {
                 id: "bridal-glam",
                 name: "Bridal Makeup",
-                price: "From ₦50,000",
+                price: "From $150",
                 description: "High-definition, long-lasting makeup artistry for your special day. Waterproof and tear-proof.",
                 features: ["Pre-wedding trial", "Luxury skin prep", "Touch-up kit included", "Full body glow"],
-                image: "/makeup 2.jpg"
+                image: "/makeup 1.jpg"
             }
         ]
     },
@@ -75,7 +75,7 @@ const serviceCategories: ServiceCategory[] = [
             {
                 id: "wig-install",
                 name: "Wig Installation",
-                price: "₦10,000",
+                price: "$25",
                 description: "Flawless frontal or closure installation with customization for a natural hairline.",
                 features: ["Bleached knots", "Haipline plucking", "Hot comb styling", "Baby hairs (optional)"],
                 image: "/wig 1.jpeg"
@@ -83,7 +83,7 @@ const serviceCategories: ServiceCategory[] = [
             {
                 id: "custom-wig",
                 name: "Custom Wig Making",
-                price: "From ₦20,000",
+                price: "From $50",
                 description: "Bespoke wig construction tailored to your exact head measurements.",
                 features: ["Machine or hand stitched", "Bundle coloring service", "Cut & Style included", "Elastic band method"],
                 image: "/wig 2.jpeg"

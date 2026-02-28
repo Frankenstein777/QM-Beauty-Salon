@@ -7,7 +7,7 @@ const featuredProducts = [
   {
     id: "1",
     name: "Royal AutoGele - Gold Series",
-    price: "₦15,000",
+    price: "$35",
     category: "Auto gele",
     slug: "royal-autogele-gold",
     image: "/Autogele 1.png" // Realistic asset
@@ -15,7 +15,7 @@ const featuredProducts = [
   {
     id: "2",
     name: "Luxury Bone Straight Wig",
-    price: "₦150,000",
+    price: "$300",
     category: "Wigs and hairs",
     slug: "luxury-bone-straight",
     image: "/wig 1.jpeg"
@@ -23,7 +23,7 @@ const featuredProducts = [
   {
     id: "3",
     name: "Bridal Glam Package",
-    price: "₦80,000",
+    price: "$200",
     category: "Nails and lashes",
     slug: "bridal-glam-package",
     image: "/lashes 1.jpg"
@@ -31,7 +31,7 @@ const featuredProducts = [
   {
     id: "4",
     name: "Velvet Matte Lip Kit",
-    price: "₦12,000",
+    price: "$20",
     category: "Make-up",
     slug: "velvet-matte-lip",
     image: "/makeup 1.jpg"
