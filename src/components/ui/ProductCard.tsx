@@ -48,23 +48,28 @@ const ProductCard: React.FC<ProductCardProps> = ({
             or Next.js Image with fill if we have real images. 
             For this demo, we'll use a placeholder structure relative to the implementation plan. 
         */}
-                <div
-                    className={styles.imagePlaceholder}
-                    style={{ backgroundImage: `url('${encodeURI(image)}')` }}
-                />
-                <div className={styles.overlay}>
-                    <div className={styles.actions}>
-                        <Button variant="primary" size="sm" icon={<ShoppingBag size={16} />} onClick={handleAddToCart}>
-                            Add to Cart
-                        </Button>
-                        <Link href={`/shop/${slug}`}>
-                            <Button variant="secondary" size="sm" icon={<Eye size={16} />}>
+                <Link href={`/shop/${slug}`} style={{ display: 'block', width: '100%', height: '100%' }}>
+                    <div
+                        className={styles.imagePlaceholder}
+                        style={{ backgroundImage: `url('${encodeURI(image)}')` }}
+                    />
+                    <div className={styles.overlay}>
+                        <div className={styles.actions}>
+                            <Button variant="primary" size="sm" icon={<ShoppingBag size={16} />} onClick={(e) => {
+                                e.preventDefault();
+                                handleAddToCart();
+                            }}>
+                                Add to Cart
+                            </Button>
+                            <Button variant="secondary" size="sm" icon={<Eye size={16} />} onClick={(e) => {
+                                // Default link behavior handles navigation
+                            }}>
                                 View
                             </Button>
-                        </Link>
+                        </div>
                     </div>
-                </div>
-                <span className={styles.categoryTag}>{category}</span>
+                    <span className={styles.categoryTag}>{category}</span>
+                </Link>
             </div>
 
             <div className={styles.details}>

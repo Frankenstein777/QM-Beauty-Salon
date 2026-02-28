@@ -1,9 +1,12 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import styles from "./page.module.css";
 import ProductCard from "@/components/ui/ProductCard";
 import { Filter, ChevronDown } from "lucide-react";
 
 // Extended Mock Data
-const products = [
+export const products = [
     // Auto gele
     { id: "1", name: "Royal Auto gele - Gold", price: "₦15,000", category: "Auto gele", slug: "royal-autogele-gold", image: "/Autogele 1.png" },
     { id: "2", name: "Swarovski Auto gele", price: "₦35,000", category: "Auto gele", slug: "swarovski-autogele", image: "/Autogele 2.png" },
@@ -36,6 +39,14 @@ const products = [
 const categories = ["All", "Auto gele", "Wigs and hairs", "Make-up", "Nails and lashes"];
 
 export default function ShopPage() {
+    const [displayProducts, setDisplayProducts] = useState(products);
+
+    useEffect(() => {
+        // Shuffle products on component mount so it's random on each visit
+        const shuffled = [...products].sort(() => 0.5 - Math.random());
+        setDisplayProducts(shuffled);
+    }, []);
+
     return (
         <div className={styles.container}>
             {/* Header */}
@@ -77,7 +88,7 @@ export default function ShopPage() {
                 {/* Product Grid */}
                 <div className={styles.main}>
                     <div className={styles.toolbar}>
-                        <span>Showing {products.length} results</span>
+                        <span>Showing {displayProducts.length} results</span>
                         <button className={styles.sortBtn}>
                             Sort by: Featured <ChevronDown size={14} />
                         </button>
@@ -87,7 +98,7 @@ export default function ShopPage() {
                     </div>
 
                     <div className={styles.grid}>
-                        {products.map((product) => (
+                        {displayProducts.map((product) => (
                             <ProductCard key={product.id} {...product} />
                         ))}
                     </div>

@@ -7,49 +7,41 @@ import ProductCard from "@/components/ui/ProductCard";
 import { Star, Minus, Plus, Share2, Heart } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 
-// Mock Data for individual product (would come from API/DB in real app)
-const product = {
-    id: "1",
-    name: "Royal AutoGele - Gold Series",
-    price: 15000,
-    description: "Experience the epitome of elegance with our hand-tied Royal AutoGele. Crafted from premium Asooke fabric, this piece features intricate detailing and a comfortable adjustable fit. Perfect for weddings, galas, and special occasions.",
-    images: ["/Autogele 1.png", "/Autogele 2.png", "/Autogele 3.png"],
-    rating: 4.8,
-    reviews: 124,
-    sizes: ["Standard", "Large", "Custom"],
-    colors: ["Gold", "Silver", "Rose Gold", "Black"],
-    category: "Auto gele"
-};
-
-const relatedProducts = [
-    {
-        id: "2",
-        name: "Luxury Bone Straight Wig",
-        price: "₦150,000",
-        category: "Wigs and hairs",
-        slug: "luxury-bone-straight",
-        image: "/wig 1.jpeg"
-    },
-    {
-        id: "6",
-        name: "Swarovski Auto gele",
-        price: "₦35,000",
-        category: "Auto gele",
-        slug: "swarovski-autogele",
-        image: "/Autogele 2.png"
-    },
-    {
-        id: "4",
-        name: "Bridal Handfan - Pearl",
-        price: "₦25,000",
-        category: "Nails and lashes",
-        slug: "bridal-handfan-pearl",
-        image: "/Nails 1.jpeg"
-    }
-];
+// Import products directly instead of redefining them to ensure consistency
+import { products } from "@/app/shop/page";
 
 export default function ProductDetailPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = use(params); // Unwrapping params for Next.js 15
+
+    type CatalogProduct = typeof products[0];
+
+    // Find the actual product from our catalog
+    const currentProduct = products.find(p => p.slug === slug);
+
+    // Add missing mock properties to current product that are needed
+    const product = currentProduct ? {
+        ...currentProduct,
+        description: "Experience the epitome of elegance with this premium item. Crafted from premium materials, this piece features intricate detailing and a comfortable fit. Perfect for weddings, galas, and special occasions.",
+        images: [currentProduct.image],
+        rating: 4.8,
+        reviews: Math.floor(Math.random() * 200) + 10,
+        sizes: ["Standard", "Large", "Custom"],
+        colors: ["Gold", "Silver", "Rose Gold", "Black"]
+    } : {
+        // Fallback for unknown slugs
+        id: "1",
+        name: "Item Not Found",
+        price: "₦0",
+        description: "This item could not be found in our catalog.",
+        images: ["/Autogele 1.png"],
+        rating: 0,
+        reviews: 0,
+        sizes: ["Standard"],
+        colors: ["Standard"],
+        category: "Unknown",
+        slug: "unknown"
+    };
+
     const [selectedSize, setSelectedSize] = useState(product.sizes[0]);
     const [selectedColor, setSelectedColor] = useState(product.colors[0]);
     const [quantity, setQuantity] = useState(1);
@@ -61,10 +53,15 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
     const { addToCart } = useCart();
 
     const handleAddToCart = () => {
+        // Parse the string price "₦15,000" to numeric
+        const numericPrice = typeof product.price === 'string'
+            ? parseFloat(product.price.replace(/[^0-9.-]+/g, "")) || 0
+            : product.price;
+
         addToCart({
             id: product.id,
             name: product.name,
-            price: product.price,
+            price: numericPrice,
             image: product.images[0],
             size: selectedSize,
             color: selectedColor,
@@ -82,18 +79,8 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
             <div className={styles.productLayout}>
                 {/* Image Gallery */}
                 <div className={styles.gallery}>
-                    <div className={styles.mainImage} style={{ backgroundImage: `url(${product.images[activeImage]})` }}>
+                    <div className={styles.mainImage} style={{ backgroundImage: `url('${encodeURI(product.images[0])}')` }}>
                         {/* Main Image View */}
-                    </div>
-                    <div className={styles.thumbnailGrid}>
-                        {product.images.map((img, idx) => (
-                            <button
-                                key={idx}
-                                className={`${styles.thumbnail} ${activeImage === idx ? styles.activeThumb : ""}`}
-                                style={{ backgroundImage: `url(${img})` }}
-                                onClick={() => setActiveImage(idx)}
-                            />
-                        ))}
                     </div>
                 </div>
 
@@ -116,7 +103,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
                         <div className={styles.optionGroup}>
                             <label>Color: <span className={styles.selectedValue}>{selectedColor}</span></label>
                             <div className={styles.colorOptions}>
-                                {product.colors.map((color) => (
+                                {product.colors.map((color: string) => (
                                     <button
                                         key={color}
                                         className={`${styles.colorBtn} ${selectedColor === color ? styles.activeColor : ""}`}
@@ -131,7 +118,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
                         <div className={styles.optionGroup}>
                             <label>Size: <span className={styles.selectedValue}>{selectedSize}</span></label>
                             <div className={styles.sizeOptions}>
-                                {product.sizes.map((size) => (
+                                {product.sizes.map((size: string) => (
                                     <button
                                         key={size}
                                         className={`${styles.sizeBtn} ${selectedSize === size ? styles.activeSize : ""}`}
@@ -177,7 +164,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
             <section className={styles.relatedSection}>
                 <h3 className={styles.sectionTitle}>You May Also Like</h3>
                 <div className={styles.relatedGrid}>
-                    {relatedProducts.map((p) => (
+                    {products.filter((p: CatalogProduct) => p.category === product.category && p.id !== product.id).slice(0, 3).map((p: CatalogProduct) => (
                         <ProductCard key={p.id} {...p} />
                     ))}
                 </div>
