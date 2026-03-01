@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Instagram, Phone, Mail, MapPin, Facebook, Twitter } from "lucide-react";
+import { Instagram, Facebook, Video, MessageCircle } from "lucide-react";
 import styles from "./Footer.module.css";
 import Button from "../ui/Button";
 
@@ -16,9 +16,10 @@ const Footer = () => {
                             Redefining luxury beauty with premium AutoGeles, wigs, and professional styling services.
                         </p>
                         <div className={styles.socials}>
-                            <a href="#" aria-label="Instagram"><Instagram size={20} /></a>
-                            <a href="#" aria-label="Facebook"><Facebook size={20} /></a>
-                            <a href="#" aria-label="Twitter"><Twitter size={20} /></a>
+                            <a href="https://wa.me/14372630869" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><MessageCircle size={20} /></a>
+                            <a href="https://www.instagram.com/qmbeautysalon" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><Instagram size={20} /></a>
+                            <a href="https://facebook.com/queencyjones.eze" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><Facebook size={20} /></a>
+                            <a href="https://www.tiktok.com/@qmmakeover" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><Video size={20} /></a>
                         </div>
                     </div>
 
