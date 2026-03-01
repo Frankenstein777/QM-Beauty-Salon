@@ -120,8 +120,11 @@
     width: 300px;
     height: 400px;
     background-color: var(--gray-light);
+    background-size: cover;
+    background-position: top center;
     margin: 0 auto 30px;
     border: 1px solid var(--gray-light);
+    border-radius: 8px;
 }
 
 .memberName {
