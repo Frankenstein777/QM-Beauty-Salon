@@ -4,7 +4,7 @@ import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import styles from "./page.module.css";
 import ProductCard from "@/components/ui/ProductCard";
-import { ChevronDown } from "lucide-react";
+import { Filter, ChevronDown, X } from "lucide-react";
 
 // Extended Mock Data
 export const products = [
@@ -44,22 +44,63 @@ function ShopContent() {
     const query = searchParams.get("q")?.toLowerCase() || "";
 
     const [displayProducts, setDisplayProducts] = useState(products);
+    const [sortBy, setSortBy] = useState("featured");
+    const [activeCategory, setActiveCategory] = useState("All");
+    const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+    const [priceRange, setPriceRange] = useState(500);
 
     useEffect(() => {
         let filtered = [...products];
 
+        // Search query
         if (query) {
             filtered = filtered.filter(p =>
                 p.name.toLowerCase().includes(query) ||
                 p.category.toLowerCase().includes(query)
             );
-        } else {
-            // Shuffle products on component mount so it's random on each visit
-            filtered = filtered.sort(() => 0.5 - Math.random());
+        }
+
+        // Category
+        if (activeCategory !== "All") {
+            filtered = filtered.filter(p => p.category === activeCategory);
+        }
+
+        // Price range
+        filtered = filtered.filter(p => {
+            const numPrice = typeof p.price === 'string'
+                ? parseFloat(p.price.replace(/[^0-9.-]+/g, "")) || 0
+                : (p.price as unknown as number) || 0;
+            return numPrice <= priceRange;
+        });
+
+        // Sorting
+        switch (sortBy) {
+            case "price-asc":
+                filtered.sort((a, b) => {
+                    const priceA = typeof a.price === 'string' ? parseFloat(a.price.replace(/[^0-9.-]+/g, "")) : (a.price as unknown as number);
+                    const priceB = typeof b.price === 'string' ? parseFloat(b.price.replace(/[^0-9.-]+/g, "")) : (b.price as unknown as number);
+                    return priceA - priceB;
+                });
+                break;
+            case "price-desc":
+                filtered.sort((a, b) => {
+                    const priceA = typeof a.price === 'string' ? parseFloat(a.price.replace(/[^0-9.-]+/g, "")) : (a.price as unknown as number);
+                    const priceB = typeof b.price === 'string' ? parseFloat(b.price.replace(/[^0-9.-]+/g, "")) : (b.price as unknown as number);
+                    return priceB - priceA;
+                });
+                break;
+            case "name-asc":
+                filtered.sort((a, b) => a.name.localeCompare(b.name));
+                break;
+            case "name-desc":
+                filtered.sort((a, b) => b.name.localeCompare(a.name));
+                break;
+            default:
+                break;
         }
 
         setDisplayProducts(filtered);
-    }, [query]);
+    }, [query, activeCategory, priceRange, sortBy]);
 
     return (
         <div className={styles.container}>
@@ -70,15 +111,33 @@ function ShopContent() {
             </div>
 
             <div className={styles.layout}>
+                {/* Mobile Filter Overlay Background */}
+                {isMobileFilterOpen && (
+                    <div className={styles.mobileFilterOverlay} onClick={() => setIsMobileFilterOpen(false)} />
+                )}
+
                 {/* Sidebar Filters */}
-                <aside className={styles.sidebar}>
+                <aside className={`${styles.sidebar} ${isMobileFilterOpen ? styles.sidebarOpen : ""}`}>
+                    {isMobileFilterOpen && (
+                        <div className={styles.mobileSidebarHeader}>
+                            <h2>Filters</h2>
+                            <button className={styles.closeSidebarBtn} onClick={() => setIsMobileFilterOpen(false)}>
+                                <X size={24} />
+                            </button>
+                        </div>
+                    )}
+
                     <div className={styles.filterGroup}>
                         <h3 className={styles.filterTitle}>
                             Category <ChevronDown size={16} />
                         </h3>
                         <ul className={styles.filterList}>
                             {categories.map((cat) => (
-                                <li key={cat} className={cat === "All" ? styles.activeFilter : ""}>
+                                <li
+                                    key={cat}
+                                    className={cat === activeCategory ? styles.activeFilter : ""}
+                                    onClick={() => setActiveCategory(cat)}
+                                >
                                     {cat}
                                 </li>
                             ))}
@@ -90,10 +149,18 @@ function ShopContent() {
                             Price <ChevronDown size={16} />
                         </h3>
                         <div className={styles.priceRange}>
-                            <input type="range" min="0" max="500" className={styles.rangeInput} />
+                            <input
+                                type="range"
+                                min="0"
+                                max="500"
+                                step="10"
+                                value={priceRange}
+                                onChange={(e) => setPriceRange(Number(e.target.value))}
+                                className={styles.rangeInput}
+                            />
                             <div className={styles.priceLabels}>
                                 <span>$0</span>
-                                <span>$500+</span>
+                                <span>${priceRange}</span>
                             </div>
                         </div>
                     </div>
@@ -103,6 +170,22 @@ function ShopContent() {
                 <div className={styles.main}>
                     <div className={styles.toolbar}>
                         <span>Showing {displayProducts.length} results</span>
+                        <div className={styles.toolbarActions}>
+                            <select
+                                className={styles.sortSelect}
+                                value={sortBy}
+                                onChange={(e) => setSortBy(e.target.value)}
+                            >
+                                <option value="featured">Sort by: Featured</option>
+                                <option value="price-asc">Price: Low to High</option>
+                                <option value="price-desc">Price: High to Low</option>
+                                <option value="name-asc">Name: A to Z</option>
+                                <option value="name-desc">Name: Z to A</option>
+                            </select>
+                            <button className={styles.mobileFilterBtn} onClick={() => setIsMobileFilterOpen(true)}>
+                                Filter <Filter size={14} />
+                            </button>
+                        </div>
                     </div>
 
                     <div className={styles.grid}>

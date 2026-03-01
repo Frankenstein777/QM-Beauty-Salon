@@ -1,10 +1,10 @@
 "use client";
 
-import { use, useState } from "react";
+import { use, useState, useEffect } from "react";
 import styles from "./page.module.css";
 import Button from "@/components/ui/Button";
 import ProductCard from "@/components/ui/ProductCard";
-import { Star, Minus, Plus } from "lucide-react";
+import { Star, Minus, Plus, Heart, Share2 } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 
 // Import products directly instead of redefining them to ensure consistency
@@ -49,6 +49,51 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
 
     const incrementQty = () => setQuantity((prev) => prev + 1);
     const decrementQty = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+
+    const [isWishlisted, setIsWishlisted] = useState(false);
+
+    useEffect(() => {
+        const stored = localStorage.getItem('wishlist');
+        if (stored) {
+            const wishlist = JSON.parse(stored);
+            if (wishlist.includes(product.id)) {
+                setIsWishlisted(true);
+            }
+        }
+    }, [product.id]);
+
+    const toggleWishlist = () => {
+        const stored = localStorage.getItem('wishlist') || '[]';
+        let wishlist = JSON.parse(stored);
+
+        if (isWishlisted) {
+            wishlist = wishlist.filter((id: string) => id !== product.id);
+            setIsWishlisted(false);
+            alert("Removed from wishlist!");
+        } else {
+            if (!wishlist.includes(product.id)) wishlist.push(product.id);
+            setIsWishlisted(true);
+            alert("Added to wishlist!");
+        }
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+    };
+
+    const handleShare = async () => {
+        try {
+            if (navigator.share) {
+                await navigator.share({
+                    title: product.name,
+                    text: `Check out this ${product.name} at QM Beauty Salon!`,
+                    url: window.location.href,
+                });
+            } else {
+                await navigator.clipboard.writeText(window.location.href);
+                alert("Link copied to clipboard!");
+            }
+        } catch (error) {
+            console.error("Error sharing", error);
+        }
+    };
 
     const basePrice = typeof product.price === 'string'
         ? parseFloat(product.price.replace(/[^0-9.-]+/g, "")) || 0
@@ -147,7 +192,15 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
                         </Button>
                     </div>
 
-
+                    <div className={styles.metaActions}>
+                        <button className={styles.metaBtn} onClick={toggleWishlist}>
+                            <Heart size={18} fill={isWishlisted ? "var(--black, #000)" : "none"} />
+                            {isWishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
+                        </button>
+                        <button className={styles.metaBtn} onClick={handleShare}>
+                            <Share2 size={18} /> Share
+                        </button>
+                    </div>
 
                     <div className={styles.guarantees}>
                         <div className={styles.guaranteeItem}>
