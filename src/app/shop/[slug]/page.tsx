@@ -4,7 +4,7 @@ import { use, useState } from "react";
 import styles from "./page.module.css";
 import Button from "@/components/ui/Button";
 import ProductCard from "@/components/ui/ProductCard";
-import { Star, Minus, Plus, Share2, Heart } from "lucide-react";
+import { Star, Minus, Plus } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 
 // Import products directly instead of redefining them to ensure consistency
@@ -50,16 +50,22 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
     const incrementQty = () => setQuantity((prev) => prev + 1);
     const decrementQty = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
 
-    const numericPrice = typeof product.price === 'string'
+    const basePrice = typeof product.price === 'string'
         ? parseFloat(product.price.replace(/[^0-9.-]+/g, "")) || 0
         : (product.price as unknown as number) || 0;
+
+    // Calculate dynamic pricing based on customizations
+    const sizeModifier = selectedSize === "Large" ? 15 : selectedSize === "Custom" ? 30 : 0;
+    const colorModifier = selectedColor === "Black" || selectedColor === "Standard" ? 0 : 5;
+
+    const numericPrice = basePrice + sizeModifier + colorModifier;
 
     const { addToCart } = useCart();
 
     const handleAddToCart = () => {
         addToCart({
             id: product.id,
-            name: product.name,
+            name: `${product.name} (${selectedSize}, ${selectedColor})`,
             price: numericPrice,
             image: product.images[0],
             size: selectedSize,
@@ -141,10 +147,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
                         </Button>
                     </div>
 
-                    <div className={styles.metaActions}>
-                        <button className={styles.metaBtn}><Heart size={18} /> Add to Wishlist</button>
-                        <button className={styles.metaBtn}><Share2 size={18} /> Share</button>
-                    </div>
+
 
                     <div className={styles.guarantees}>
                         <div className={styles.guaranteeItem}>

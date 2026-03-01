@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Menu, X, Handbag, Search } from "lucide-react";
 import styles from "./Navbar.module.css";
 
@@ -10,7 +11,10 @@ import { useCart } from "@/context/CartContext";
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
     const { cartCount } = useCart();
+    const router = useRouter();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -36,6 +40,14 @@ const Navbar = () => {
         { name: "Contact", href: "/contact" },
     ];
 
+    const handleSearch = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (searchQuery.trim()) {
+            setIsSearchOpen(false);
+            router.push(`/shop?q=${encodeURIComponent(searchQuery.trim())}`);
+        }
+    };
+
     return (
         <nav className={`${styles.navbar} ${isScrolled ? styles.scrolled : styles.transparent}`}>
             <div className={styles.container}>
@@ -59,13 +71,35 @@ const Navbar = () => {
 
                 {/* Right Actions */}
                 <div className={styles.right}>
-                    <button className={styles.iconBtn} aria-label="Search">
+                    <button className={styles.iconBtn} aria-label="Search" onClick={() => setIsSearchOpen(true)}>
                         <Search size={20} />
                     </button>
                     <Link href="/cart" className={styles.iconBtn} aria-label="Cart">
                         <Handbag size={20} />
                         <span className={styles.cartBadge}>{cartCount}</span>
                     </Link>
+                </div>
+            </div>
+
+            {/* Search Overlay */}
+            <div className={`${styles.searchOverlay} ${isSearchOpen ? styles.searchOpen : ""}`}>
+                <div className={styles.searchContainer}>
+                    <button className={styles.closeSearch} onClick={() => setIsSearchOpen(false)}>
+                        <X size={28} />
+                    </button>
+                    <form className={styles.searchForm} onSubmit={handleSearch}>
+                        <input
+                            type="text"
+                            placeholder="Search products..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className={styles.searchInput}
+                            autoFocus={isSearchOpen}
+                        />
+                        <button type="submit" className={styles.searchSubmit}>
+                            <Search size={24} />
+                        </button>
+                    </form>
                 </div>
             </div>
 

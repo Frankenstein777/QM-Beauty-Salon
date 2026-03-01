@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import styles from "./page.module.css";
 import ProductCard from "@/components/ui/ProductCard";
-import { Filter, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 // Extended Mock Data
 export const products = [
@@ -38,14 +39,27 @@ export const products = [
 
 const categories = ["All", "Auto gele", "Wigs and hairs", "Make-up", "Nails and lashes"];
 
-export default function ShopPage() {
+function ShopContent() {
+    const searchParams = useSearchParams();
+    const query = searchParams.get("q")?.toLowerCase() || "";
+
     const [displayProducts, setDisplayProducts] = useState(products);
 
     useEffect(() => {
-        // Shuffle products on component mount so it's random on each visit
-        const shuffled = [...products].sort(() => 0.5 - Math.random());
-        setDisplayProducts(shuffled);
-    }, []);
+        let filtered = [...products];
+
+        if (query) {
+            filtered = filtered.filter(p =>
+                p.name.toLowerCase().includes(query) ||
+                p.category.toLowerCase().includes(query)
+            );
+        } else {
+            // Shuffle products on component mount so it's random on each visit
+            filtered = filtered.sort(() => 0.5 - Math.random());
+        }
+
+        setDisplayProducts(filtered);
+    }, [query]);
 
     return (
         <div className={styles.container}>
@@ -89,12 +103,6 @@ export default function ShopPage() {
                 <div className={styles.main}>
                     <div className={styles.toolbar}>
                         <span>Showing {displayProducts.length} results</span>
-                        <button className={styles.sortBtn}>
-                            Sort by: Featured <ChevronDown size={14} />
-                        </button>
-                        <button className={styles.mobileFilterBtn}>
-                            Filter <Filter size={14} />
-                        </button>
                     </div>
 
                     <div className={styles.grid}>
@@ -105,5 +113,13 @@ export default function ShopPage() {
                 </div>
             </div>
         </div>
+    );
+}
+
+export default function ShopPage() {
+    return (
+        <Suspense fallback={<div className={styles.container}>Loading products...</div>}>
+            <ShopContent />
+        </Suspense>
     );
 }
