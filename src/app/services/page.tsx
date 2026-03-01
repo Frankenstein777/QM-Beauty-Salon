@@ -1,8 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import styles from "./page.module.css";
 import Button from "@/components/ui/Button";
-import { Check } from "lucide-react";
+import { Check, X } from "lucide-react";
 
 interface ServiceItem {
     id: string;
@@ -32,7 +33,7 @@ const serviceCategories: ServiceCategory[] = [
                 price: "$15",
                 description: "Pre-styled gele that is easy to wear and fully adjustable. Available in various fabrics including Asooke and Damask.",
                 features: ["Custom fabric choice", "Adjustable velcro strap", "Secure fit", "Reusable"],
-                image: "/Autogele 1.png"
+                image: "/Autogele 4.png"
             },
             {
                 id: "bridal-gele",
@@ -93,6 +94,8 @@ const serviceCategories: ServiceCategory[] = [
 ];
 
 export default function ServicesPage() {
+    const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
     return (
         <div className={styles.container}>
             <header className={styles.header}>
@@ -113,11 +116,19 @@ export default function ServicesPage() {
                         <div className={styles.grid}>
                             {category.items.map((item) => (
                                 <div key={item.id} className={styles.card}>
-                                    <div className={styles.imageContainer}>
+                                    <div
+                                        className={styles.imageContainer}
+                                        onClick={() => setSelectedImage(item.image)}
+                                        role="button"
+                                        aria-label={`View full image for ${item.name}`}
+                                    >
                                         <div
                                             className={styles.image}
                                             style={{ backgroundImage: `url('${encodeURI(item.image)}')` }}
                                         />
+                                        <div className={styles.imageOverlay}>
+                                            <span>View Full Image</span>
+                                        </div>
                                         <span className={styles.priceTag}>{item.price}</span>
                                     </div>
 
@@ -152,6 +163,29 @@ export default function ServicesPage() {
                     <Button variant="outline" size="lg" href="/contact">Contact Us</Button>
                 </div>
             </div>
+
+            {/* Lightbox Modal */}
+            {selectedImage && (
+                <div className={styles.lightboxOverlay} onClick={() => setSelectedImage(null)}>
+                    <button
+                        className={styles.lightboxCloseBtn}
+                        onClick={(e) => { e.stopPropagation(); setSelectedImage(null); }}
+                        aria-label="Close image"
+                    >
+                        <X size={32} />
+                    </button>
+                    <div
+                        className={styles.lightboxContent}
+                        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking the image itself
+                    >
+                        <img
+                            src={encodeURI(selectedImage)}
+                            alt="Service full view"
+                            className={styles.lightboxImage}
+                        />
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
