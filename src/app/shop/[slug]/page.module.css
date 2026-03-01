@@ -291,4 +291,9 @@
     .guarantees {
         grid-template-columns: 1fr;
     }
+
+    .relatedGrid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 15px;
+    }
 }

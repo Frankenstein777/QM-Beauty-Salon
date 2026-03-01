@@ -31,7 +31,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
         // Fallback for unknown slugs
         id: "1",
         name: "Item Not Found",
-        price: "₦0",
+        price: "$0",
         description: "This item could not be found in our catalog.",
         images: ["/Autogele 1.png"],
         rating: 0,
@@ -50,14 +50,13 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
     const incrementQty = () => setQuantity((prev) => prev + 1);
     const decrementQty = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
 
+    const numericPrice = typeof product.price === 'string'
+        ? parseFloat(product.price.replace(/[^0-9.-]+/g, "")) || 0
+        : (product.price as unknown as number) || 0;
+
     const { addToCart } = useCart();
 
     const handleAddToCart = () => {
-        // Parse the string price "₦15,000" to numeric
-        const numericPrice = typeof product.price === 'string'
-            ? parseFloat(product.price.replace(/[^0-9.-]+/g, "")) || 0
-            : product.price;
-
         addToCart({
             id: product.id,
             name: product.name,
@@ -96,7 +95,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
                         <span className={styles.reviewCount}>({product.reviews} reviews)</span>
                     </div>
 
-                    <h2 className={styles.price}>₦{product.price.toLocaleString()}</h2>
+                    <h2 className={styles.price}>${numericPrice.toLocaleString()}</h2>
                     <p className={styles.description}>{product.description}</p>
 
                     <div className={styles.options}>
@@ -138,7 +137,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
                             <button onClick={incrementQty}><Plus size={16} /></button>
                         </div>
                         <Button variant="primary" size="lg" className={styles.addToCartBtn} fullWidth onClick={handleAddToCart}>
-                            Add to Cart - ₦{(product.price * quantity).toLocaleString()}
+                            Add to Bag - ${(numericPrice * quantity).toLocaleString()}
                         </Button>
                     </div>
 

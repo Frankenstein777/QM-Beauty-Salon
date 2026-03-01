@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, ShoppingBag, Search } from "lucide-react";
+import { Menu, X, Handbag, Search } from "lucide-react";
 import styles from "./Navbar.module.css";
 
 import { useCart } from "@/context/CartContext";
@@ -63,7 +63,7 @@ const Navbar = () => {
                         <Search size={20} />
                     </button>
                     <Link href="/cart" className={styles.iconBtn} aria-label="Cart">
-                        <ShoppingBag size={20} />
+                        <Handbag size={20} />
                         <span className={styles.cartBadge}>{cartCount}</span>
                     </Link>
                 </div>

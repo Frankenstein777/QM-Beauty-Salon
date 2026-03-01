@@ -126,9 +126,6 @@ export default function ServicesPage() {
                                             className={styles.image}
                                             style={{ backgroundImage: `url('${encodeURI(item.image)}')` }}
                                         />
-                                        <div className={styles.imageOverlay}>
-                                            <span>View Full Image</span>
-                                        </div>
                                         <span className={styles.priceTag}>{item.price}</span>
                                     </div>
 

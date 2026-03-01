@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ShoppingBag, Eye } from "lucide-react";
+import { Handbag, Eye } from "lucide-react";
 import styles from "./ProductCard.module.css";
 import Button from "./Button";
 import { useCart } from "@/context/CartContext";
@@ -55,7 +55,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     />
                     <div className={styles.overlay}>
                         <div className={styles.actions}>
-                            <Button variant="primary" size="sm" icon={<ShoppingBag size={16} />} onClick={(e) => {
+                            <Button variant="primary" size="sm" icon={<Handbag size={16} />} onClick={(e) => {
                                 e.preventDefault();
                                 handleAddToCart();
                             }}>
