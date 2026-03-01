@@ -33,7 +33,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
         const stored = localStorage.getItem("cartItems");
         if (stored) {
             try {
-                setCartItems(JSON.parse(stored));
+                const parsed = JSON.parse(stored);
+                if (Array.isArray(parsed)) {
+                    // Basic validation to ensure expected shape
+                    const validItems = parsed.filter(item => item && typeof item.id === 'string' && typeof item.quantity === 'number');
+                    setCartItems(validItems);
+                }
             } catch (e) {
                 console.error("Failed to parse cart items", e);
             }

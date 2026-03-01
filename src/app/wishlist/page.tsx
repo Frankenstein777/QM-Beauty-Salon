@@ -12,11 +12,18 @@ export default function WishlistPage() {
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
-        const stored = localStorage.getItem('wishlist');
-        if (stored) {
-            const wishlistIds = JSON.parse(stored);
-            const items = products.filter(p => wishlistIds.includes(p.id));
-            setWishlistProducts(items);
+        try {
+            const stored = localStorage.getItem('wishlist');
+            if (stored) {
+                const wishlistIds = JSON.parse(stored);
+                if (Array.isArray(wishlistIds)) {
+                    const validIds = wishlistIds.filter(id => typeof id === 'string');
+                    const items = products.filter(p => validIds.includes(p.id));
+                    setWishlistProducts(items);
+                }
+            }
+        } catch (e) {
+            console.error("Failed to parse wishlist", e);
         }
         setIsLoaded(true);
     }, []);

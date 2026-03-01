@@ -55,18 +55,28 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
     const [isWishlisted, setIsWishlisted] = useState(false);
 
     useEffect(() => {
-        const stored = localStorage.getItem('wishlist');
-        if (stored) {
-            const wishlist = JSON.parse(stored);
-            if (wishlist.includes(product.id)) {
-                setIsWishlisted(true);
+        try {
+            const stored = localStorage.getItem('wishlist');
+            if (stored) {
+                const wishlist = JSON.parse(stored);
+                if (Array.isArray(wishlist) && wishlist.includes(product.id)) {
+                    setIsWishlisted(true);
+                }
             }
+        } catch (e) {
+            console.error("Failed to parse wishlist list", e);
         }
     }, [product.id]);
 
     const toggleWishlist = () => {
-        const stored = localStorage.getItem('wishlist') || '[]';
-        let wishlist = JSON.parse(stored);
+        let wishlist: string[] = [];
+        try {
+            const stored = localStorage.getItem('wishlist') || '[]';
+            const parsed = JSON.parse(stored);
+            if (Array.isArray(parsed)) wishlist = parsed.filter(id => typeof id === 'string');
+        } catch (e) {
+            // Start fresh if corrupted
+        }
 
         if (isWishlisted) {
             wishlist = wishlist.filter((id: string) => id !== product.id);
