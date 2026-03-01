@@ -3,42 +3,28 @@ import Button from "@/components/ui/Button";
 import ProductCard from "@/components/ui/ProductCard";
 import { ArrowRight } from "lucide-react";
 
-const featuredProducts = [
-  {
-    id: "1",
-    name: "Royal AutoGele - Gold Series",
-    price: "$35",
-    category: "Auto gele",
-    slug: "royal-autogele-gold",
-    image: "/Autogele 1.png" // Realistic asset
-  },
-  {
-    id: "2",
-    name: "Luxury Bone Straight Wig",
-    price: "$300",
-    category: "Wigs and hairs",
-    slug: "luxury-bone-straight",
-    image: "/wig 1.jpeg"
-  },
-  {
-    id: "3",
-    name: "Bridal Glam Package",
-    price: "$200",
-    category: "Nails and lashes",
-    slug: "bridal-glam-package",
-    image: "/lashes 1.jpg"
-  },
-  {
-    id: "4",
-    name: "Velvet Matte Lip Kit",
-    price: "$20",
-    category: "Make-up",
-    slug: "velvet-matte-lip",
-    image: "/makeup 1.jpg"
+import { products } from "@/app/shop/page";
+
+function getDailyFeaturedProducts() {
+  // Use today's date string as a stable daily seed
+  const today = new Date().toDateString();
+  let hash = 0;
+  for (let i = 0; i < today.length; i++) {
+    hash = today.charCodeAt(i) + ((hash << 5) - hash);
   }
-];
+
+  const shuffled = [...products].sort((a, b) => {
+    const seedA = (hash * parseInt(a.id || "1")) % 100;
+    const seedB = (hash * parseInt(b.id || "1")) % 100;
+    return seedA - seedB;
+  });
+
+  return shuffled.slice(0, 4);
+}
 
 export default function Home() {
+  const featuredProducts = getDailyFeaturedProducts();
+
   return (
     <div className={styles.container}>
       {/* Hero Section */}
@@ -55,7 +41,7 @@ export default function Home() {
             <Button variant="primary" size="lg" href="/shop">
               Shop Collections
             </Button>
-            <Button variant="outline" size="lg" href="/services">
+            <Button variant="primary" size="lg" href="/services">
               Book Appointment
             </Button>
           </div>

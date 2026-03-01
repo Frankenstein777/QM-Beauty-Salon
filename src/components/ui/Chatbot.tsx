@@ -68,9 +68,9 @@ export default function Chatbot() {
                         }
                     },
                     {
-                        label: "Track Order", action: () => {
-                            addMessage("To track your order, please log in to your account. Would you like me to take you there?", "bot");
-                            setCurrentStep("track_order");
+                        label: "My Wishlist", action: () => {
+                            addMessage("You can view your saved luxury items in your Wishlist. I'll take you there.", "bot");
+                            setCurrentStep("wishlist_nav");
                         }
                     },
                     {
@@ -106,9 +106,9 @@ export default function Chatbot() {
                     { label: "Back to Menu", action: () => resetChat() }
                 ];
 
-            case "track_order":
+            case "wishlist_nav":
                 return [
-                    { label: "Yes, Log In", action: () => handleRedirect("/login", "Redirecting to Login...") },
+                    { label: "Go to Wishlist", action: () => handleRedirect("/wishlist", "Redirecting to Wishlist...") },
                     { label: "No, Back to Menu", action: () => resetChat() }
                 ];
 

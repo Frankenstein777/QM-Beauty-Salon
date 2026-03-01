@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, ReactNode, useCallback } from "react";
 import Toast from "@/components/ui/Toast";
+import { soundService } from "@/utils/sound";
 
 interface ToastContextType {
     showToast: (message: string, type?: "success" | "info" | "error") => void;
@@ -15,6 +16,12 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     const showToast = useCallback((message: string, type: "success" | "info" | "error" = "success") => {
         const id = Math.random().toString(36).substring(2, 9);
         setToasts(prev => [...prev, { id, message, type }]);
+
+        if (type === "success") {
+            soundService.playSuccess();
+        } else {
+            soundService.playPop();
+        }
 
         // Auto remove after 3 seconds
         setTimeout(() => {

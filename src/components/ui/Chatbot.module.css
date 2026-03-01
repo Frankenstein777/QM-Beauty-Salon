@@ -22,6 +22,10 @@
     box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
 }
 
+.toggleBtn:not(.active) {
+    animation: pulsatePeriodic 8s infinite;
+}
+
 .toggleBtn.active {
     transform: rotate(90deg);
     background-color: var(--white);
@@ -225,6 +229,31 @@
 
     50% {
         transform: translateY(-4px);
+    }
+}
+
+@keyframes pulsatePeriodic {
+
+    0%,
+    80%,
+    100% {
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        transform: scale(1);
+    }
+
+    85% {
+        box-shadow: 0 0 0 10px rgba(212, 175, 55, 0.4);
+        transform: scale(1.05);
+    }
+
+    90% {
+        box-shadow: 0 0 0 20px rgba(212, 175, 55, 0);
+        transform: scale(1);
+    }
+
+    95% {
+        box-shadow: 0 0 0 10px rgba(212, 175, 55, 0.4);
+        transform: scale(1.05);
     }
 }
 

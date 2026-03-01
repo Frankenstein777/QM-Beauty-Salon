@@ -11,8 +11,7 @@ export default function CheckoutPage() {
     const { cartItems, subtotal, clearCart } = useCart();
     const router = useRouter();
     const { showToast } = useToast();
-    const shipping = 2500;
-    const total = subtotal + shipping;
+    const total = subtotal; // Shipping calculated after
 
     const [formData, setFormData] = useState({
         firstName: "",
@@ -61,7 +60,8 @@ export default function CheckoutPage() {
 
         message += `\n*Order Summary*\n`;
         message += `Subtotal: $${subtotal.toLocaleString()}\n`;
-        message += `Shipping: $${shipping.toLocaleString()}\n`;
+        message += `Shipping: To be communicated\n`;
+        message += `*Total (Estimate): $${total.toLocaleString()}*\n\n`;
         message += `*Total: $${total.toLocaleString()}*\n\n`;
         message += `Please confirm my order and share payment instructions.`;
 
@@ -126,7 +126,7 @@ export default function CheckoutPage() {
                         </div>
 
                         <Button type="submit" variant="primary" size="lg" fullWidth style={{ marginTop: "30px" }}>
-                            Proceed to WhatsApp (${total.toLocaleString()})
+                            Proceed to WhatsApp (Est: ${total.toLocaleString()})
                         </Button>
                     </form>
                 </div>
@@ -148,8 +148,12 @@ export default function CheckoutPage() {
                             </div>
                         )}
                         <div className={styles.divider}></div>
+                        <div className={styles.summaryTotal} style={{ marginBottom: "10px", fontWeight: "normal", fontSize: "1rem" }}>
+                            <span>Shipping</span>
+                            <span style={{ color: "var(--gray-medium)", fontSize: "0.9rem" }}>Will be communicated</span>
+                        </div>
                         <div className={styles.summaryTotal}>
-                            <span>Total</span>
+                            <span>Estimated Total</span>
                             <span>${total.toLocaleString()}</span>
                         </div>
                     </div>

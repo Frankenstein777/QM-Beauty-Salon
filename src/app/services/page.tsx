@@ -158,10 +158,12 @@ export default function ServicesPage() {
                     <h2>Ready to transform your look?</h2>
                     <p>Book a consultation with Queen Mary today.</p>
                     <div style={{ display: 'flex', gap: '15px', justifyContent: 'center', marginTop: '30px', flexWrap: 'wrap' }}>
-                        <Button variant="primary" size="lg" onClick={() => window.open('https://calendly.com', '_blank')}>
-                            Book Now via Calendly
+                        <Button variant="primary" size="lg" onClick={() => window.open('https://wa.me/14372630869', '_blank')}>
+                            Book via WhatsApp
                         </Button>
-                        <Button variant="outline" size="lg" href="/contact">Contact Us</Button>
+                        <Button variant="outline" size="lg" onClick={() => window.open('https://instagram.com', '_blank')}>
+                            DM on Instagram
+                        </Button>
                     </div>
                 </div>
             </div>

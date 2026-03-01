@@ -213,50 +213,51 @@
     }
 }
 
-/* Search Overlay */
+/* Search Overlay - Repositioned to dropdown under Navbar */
 .searchOverlay {
-    position: fixed;
-    top: 0;
+    position: absolute;
+    top: 100%;
     left: 0;
     width: 100vw;
-    height: 100vh;
-    background-color: rgba(255, 255, 255, 0.98);
-    z-index: 3000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
+    height: auto;
+    background-color: var(--white);
+    border-top: 1px solid var(--gray-light);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    z-index: 999;
     visibility: hidden;
-    transition: all 0.3s ease;
+    transform: translateY(-10px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    padding: 20px 0;
 }
 
 .searchOverlay.searchOpen {
-    opacity: 1;
     visibility: visible;
+    transform: translateY(0);
+    opacity: 1;
 }
 
 .searchContainer {
     width: 100%;
-    max-width: 800px;
+    max-width: var(--container-width);
+    margin: 0 auto;
     padding: 0 40px;
     position: relative;
-    transform: translateY(-20px);
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.searchOverlay.searchOpen .searchContainer {
-    transform: translateY(0);
+    display: flex;
+    align-items: center;
 }
 
 .closeSearch {
     position: absolute;
-    top: -60px;
+    top: 50%;
+    transform: translateY(-50%);
     right: 40px;
     background: none;
     border: none;
     color: var(--black);
     cursor: pointer;
     transition: transform 0.2s ease;
+    z-index: 10;
 }
 
 .closeSearch:hover {
@@ -265,17 +266,20 @@
 }
 
 .searchForm {
+    width: 100%;
     display: flex;
     align-items: center;
     border-bottom: 2px solid var(--black);
     padding-bottom: 10px;
+    padding-right: 40px;
+    /* Space for close icon */
 }
 
 .searchInput {
     flex: 1;
     border: none;
     background: transparent;
-    font-size: 2.5rem;
+    font-size: 1.5rem;
     font-family: var(--font-playfair);
     color: var(--black);
     outline: none;
