@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Menu, X, Handbag, Search } from "lucide-react";
+import { Menu, X, Handbag, Search, Heart } from "lucide-react";
 import styles from "./Navbar.module.css";
 
 import { useCart } from "@/context/CartContext";
@@ -74,6 +74,9 @@ const Navbar = () => {
                     <button className={styles.iconBtn} aria-label="Search" onClick={() => setIsSearchOpen(true)}>
                         <Search size={20} />
                     </button>
+                    <Link href="/wishlist" className={styles.iconBtn} aria-label="Wishlist">
+                        <Heart size={20} />
+                    </Link>
                     <Link href="/cart" className={styles.iconBtn} aria-label="Cart">
                         <Handbag size={20} />
                         <span className={styles.cartBadge}>{cartCount}</span>

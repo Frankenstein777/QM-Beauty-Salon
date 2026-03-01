@@ -6,6 +6,7 @@ import Button from "@/components/ui/Button";
 import ProductCard from "@/components/ui/ProductCard";
 import { Star, Minus, Plus, Heart, Share2 } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { useToast } from "@/context/ToastContext";
 
 // Import products directly instead of redefining them to ensure consistency
 import { products } from "@/app/shop/page";
@@ -50,6 +51,8 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
     const incrementQty = () => setQuantity((prev) => prev + 1);
     const decrementQty = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
 
+    const { showToast } = useToast();
+
     const [isWishlisted, setIsWishlisted] = useState(false);
 
     useEffect(() => {
@@ -69,11 +72,11 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
         if (isWishlisted) {
             wishlist = wishlist.filter((id: string) => id !== product.id);
             setIsWishlisted(false);
-            alert("Removed from wishlist!");
+            showToast("Removed from wishlist!", "info");
         } else {
             if (!wishlist.includes(product.id)) wishlist.push(product.id);
             setIsWishlisted(true);
-            alert("Added to wishlist!");
+            showToast("Added to wishlist!", "success");
         }
         localStorage.setItem('wishlist', JSON.stringify(wishlist));
     };
@@ -88,7 +91,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
                 });
             } else {
                 await navigator.clipboard.writeText(window.location.href);
-                alert("Link copied to clipboard!");
+                showToast("Link copied to clipboard!", "info");
             }
         } catch (error) {
             console.error("Error sharing", error);
@@ -117,7 +120,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
             color: selectedColor,
             quantity: quantity
         });
-        alert(`${quantity}x ${product.name} added to your bag!`);
+        showToast(`${quantity}x ${product.name} added to your bag!`, "success");
     };
 
     return (

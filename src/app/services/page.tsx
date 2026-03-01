@@ -157,7 +157,12 @@ export default function ServicesPage() {
                 <div className={styles.ctaSection}>
                     <h2>Ready to transform your look?</h2>
                     <p>Book a consultation with Queen Mary today.</p>
-                    <Button variant="outline" size="lg" href="/contact">Contact Us</Button>
+                    <div style={{ display: 'flex', gap: '15px', justifyContent: 'center', marginTop: '30px', flexWrap: 'wrap' }}>
+                        <Button variant="primary" size="lg" onClick={() => window.open('https://calendly.com', '_blank')}>
+                            Book Now via Calendly
+                        </Button>
+                        <Button variant="outline" size="lg" href="/contact">Contact Us</Button>
+                    </div>
                 </div>
             </div>
 

@@ -5,10 +5,12 @@ import Button from "@/components/ui/Button";
 import { useCart } from "@/context/CartContext";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/context/ToastContext";
 
 export default function CheckoutPage() {
     const { cartItems, subtotal, clearCart } = useCart();
     const router = useRouter();
+    const { showToast } = useToast();
     const shipping = 2500;
     const total = subtotal + shipping;
 
@@ -31,12 +33,12 @@ export default function CheckoutPage() {
         e.preventDefault();
 
         if (cartItems.length === 0) {
-            alert("Your cart is empty!");
+            showToast("Your cart is empty!", "error");
             return;
         }
 
         if (!formData.firstName || !formData.lastName || !formData.address || !formData.phone) {
-            alert("Please fill in required shipping details (Name, Address, Phone).");
+            showToast("Please fill in required shipping details (Name, Address, Phone).", "error");
             return;
         }
 

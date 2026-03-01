@@ -7,6 +7,7 @@ import { Handbag, Eye } from "lucide-react";
 import styles from "./ProductCard.module.css";
 import Button from "./Button";
 import { useCart } from "@/context/CartContext";
+import { useToast } from "@/context/ToastContext";
 
 interface ProductCardProps {
     id: string;
@@ -26,6 +27,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
     slug,
 }) => {
     const { addToCart } = useCart();
+    const { showToast } = useToast();
 
     const handleAddToCart = () => {
         // Simple price parser to numeric. e.g "$150" -> 150
@@ -38,7 +40,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             image,
             quantity: 1,
         });
-        alert(`${name} added to bag!`);
+        showToast(`${name} added to bag!`, "success");
     };
 
     return (

@@ -75,6 +75,26 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Testimonials Section */}
+      <section className={styles.testimonialsSection}>
+        <div className={styles.sectionHeader}>
+          <h2 className={styles.sectionTitle}>What Our Queens Say</h2>
+        </div>
+        <div className={styles.testimonialGrid}>
+          {[
+            { id: 1, name: "Jessica T.", text: "The most beautiful auto-gele I've ever worn. I felt like royalty on my wedding day!" },
+            { id: 2, name: "Sarah B.", text: "QM Beauty Salon's custom wig service is unmatched. The luxury bone straight wig is pure perfection." },
+            { id: 3, name: "Aisha M.", text: "Outstanding makeup artistry. They perfectly enhanced my natural features for my photoshoot." }
+          ].map(review => (
+            <div key={review.id} className={styles.testimonialCard}>
+              <div className={styles.stars}>★★★★★</div>
+              <p className={styles.reviewText}>"{review.text}"</p>
+              <h4 className={styles.reviewerName}>- {review.name}</h4>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* About Teaser */}
       <section className={styles.aboutTeaser}>
         <div className={styles.teaserContent}>

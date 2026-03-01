@@ -5,6 +5,7 @@ import Footer from "@/components/layout/Footer";
 import Chatbot from "@/components/ui/Chatbot";
 import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
+import { ToastProvider } from "@/context/ToastContext";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -38,12 +39,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${playfair.variable} ${montserrat.variable} ${poppins.variable}`}>
       <body>
-        <CartProvider>
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
-          <Chatbot />
-        </CartProvider>
+        <ToastProvider>
+          <CartProvider>
+            <Navbar />
+            <main>{children}</main>
+            <Footer />
+            <Chatbot />
+          </CartProvider>
+        </ToastProvider>
       </body>
     </html>
   );
