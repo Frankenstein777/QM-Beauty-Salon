@@ -5,7 +5,7 @@ import Link from "next/link";
 import styles from "./page.module.css";
 import ProductCard from "@/components/ui/ProductCard";
 import Button from "@/components/ui/Button";
-import { products } from "@/app/shop/page";
+import { products } from "@/lib/data";
 
 export default function WishlistPage() {
     const [wishlistProducts, setWishlistProducts] = useState<typeof products>([]);

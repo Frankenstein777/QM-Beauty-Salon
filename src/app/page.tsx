@@ -3,7 +3,7 @@ import Button from "@/components/ui/Button";
 import ProductCard from "@/components/ui/ProductCard";
 import { ArrowRight } from "lucide-react";
 
-import { products } from "@/app/shop/page";
+import { products } from "@/lib/data";
 
 function getDailyFeaturedProducts() {
   // Use today's date string as a stable daily seed

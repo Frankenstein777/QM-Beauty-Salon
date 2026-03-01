@@ -8,8 +8,7 @@ import { Star, Minus, Plus, Heart, Share2 } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useToast } from "@/context/ToastContext";
 
-// Import products directly instead of redefining them to ensure consistency
-import { products } from "@/app/shop/page";
+import { products } from "@/lib/data";
 
 export default function ProductDetailPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = use(params); // Unwrapping params for Next.js 15
