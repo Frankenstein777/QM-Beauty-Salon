@@ -6,17 +6,44 @@ import styles from "./page.module.css";
 import ProductCard from "@/components/ui/ProductCard";
 import { Filter, ChevronDown, X } from "lucide-react";
 
-import { products, categories } from "@/lib/data";
+import { categories } from "@/lib/data";
+
+interface Product {
+    id: string;
+    name: string;
+    price: string;
+    category: string;
+    slug: string;
+    image: string | null;
+}
 
 function ShopContent() {
     const searchParams = useSearchParams();
     const query = searchParams.get("q")?.toLowerCase() || "";
 
-    const [displayProducts, setDisplayProducts] = useState(products);
+    const [products, setProducts] = useState<Product[]>([]);
+    const [displayProducts, setDisplayProducts] = useState<Product[]>([]);
     const [sortBy, setSortBy] = useState("featured");
     const [activeCategory, setActiveCategory] = useState("All");
     const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
     const [priceRange, setPriceRange] = useState(500);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await fetch('/api/products');
+                const data = await response.json();
+                setProducts(data);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchProducts();
+    }, []);
 
     useEffect(() => {
         let filtered = [...products];
@@ -157,11 +184,23 @@ function ShopContent() {
                         </div>
                     </div>
 
-                    <div className={styles.grid}>
-                        {displayProducts.map((product) => (
-                            <ProductCard key={product.id} {...product} />
-                        ))}
-                    </div>
+                    {isLoading ? (
+                        <div className={styles.loadingContainer}>Loading products...</div>
+                    ) : (
+                        <div className={styles.grid}>
+                            {displayProducts.map((product) => (
+                                <ProductCard
+                                    key={product.id}
+                                    id={product.id}
+                                    name={product.name}
+                                    price={product.price}
+                                    category={product.category}
+                                    slug={product.slug}
+                                    image={product.image || "/placeholder.jpg"}
+                                />
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

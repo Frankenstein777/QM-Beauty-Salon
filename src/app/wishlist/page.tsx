@@ -5,27 +5,46 @@ import Link from "next/link";
 import styles from "./page.module.css";
 import ProductCard from "@/components/ui/ProductCard";
 import Button from "@/components/ui/Button";
-import { products } from "@/lib/data";
+
+interface Product {
+    id: string;
+    name: string;
+    price: string;
+    category: string;
+    slug: string;
+    image: string | null;
+}
 
 export default function WishlistPage() {
-    const [wishlistProducts, setWishlistProducts] = useState<typeof products>([]);
+    const [wishlistProducts, setWishlistProducts] = useState<Product[]>([]);
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
-        try {
-            const stored = localStorage.getItem('wishlist');
-            if (stored) {
-                const wishlistIds = JSON.parse(stored);
-                if (Array.isArray(wishlistIds)) {
-                    const validIds = wishlistIds.filter(id => typeof id === 'string');
-                    const items = products.filter(p => validIds.includes(p.id));
-                    setWishlistProducts(items);
+        const fetchWishlist = async () => {
+            try {
+                const stored = localStorage.getItem('wishlist');
+                if (stored) {
+                    const wishlistIds = JSON.parse(stored);
+                    if (Array.isArray(wishlistIds)) {
+                        const validIds = wishlistIds.filter(id => typeof id === 'string');
+
+                        // Fetch all products to get full details for wishlist items
+                        // (In a real app, you'd send the IDs to an API to only fetch what's needed)
+                        const response = await fetch('/api/products');
+                        const allProducts = await response.json();
+
+                        const items = allProducts.filter((p: Product) => validIds.includes(p.id));
+                        setWishlistProducts(items);
+                    }
                 }
+            } catch (e) {
+                console.error("Failed to parse wishlist list", e);
+            } finally {
+                setIsLoaded(true);
             }
-        } catch (e) {
-            console.error("Failed to parse wishlist", e);
-        }
-        setIsLoaded(true);
+        };
+
+        fetchWishlist();
     }, []);
 
     const clearWishlist = () => {
@@ -53,7 +72,15 @@ export default function WishlistPage() {
                         </div>
                         <div className={styles.grid}>
                             {wishlistProducts.map(product => (
-                                <ProductCard key={product.id} {...product} />
+                                <ProductCard
+                                    key={product.id}
+                                    id={product.id}
+                                    name={product.name}
+                                    price={product.price}
+                                    category={product.category}
+                                    slug={product.slug}
+                                    image={product.image || "/placeholder.jpg"}
+                                />
                             ))}
                         </div>
                     </>

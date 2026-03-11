@@ -3,9 +3,11 @@ import Button from "@/components/ui/Button";
 import ProductCard from "@/components/ui/ProductCard";
 import { ArrowRight } from "lucide-react";
 
-import { products } from "@/lib/data";
+import prisma from "@/lib/prisma";
 
-function getDailyFeaturedProducts() {
+async function getDailyFeaturedProducts() {
+  const products = await prisma.product.findMany();
+
   // Use today's date string as a stable daily seed
   const today = new Date().toDateString();
   let hash = 0;
@@ -14,16 +16,22 @@ function getDailyFeaturedProducts() {
   }
 
   const shuffled = [...products].sort((a, b) => {
-    const seedA = (hash * parseInt(a.id || "1")) % 100;
-    const seedB = (hash * parseInt(b.id || "1")) % 100;
+    // Generate a simple numeric hash from the string ID for stable sorting
+    let idHashA = 0;
+    for (let i = 0; i < a.id.length; i++) idHashA = a.id.charCodeAt(i) + ((idHashA << 5) - idHashA);
+    let idHashB = 0;
+    for (let i = 0; i < b.id.length; i++) idHashB = b.id.charCodeAt(i) + ((idHashB << 5) - idHashB);
+
+    const seedA = (hash * Math.abs(idHashA)) % 100;
+    const seedB = (hash * Math.abs(idHashB)) % 100;
     return seedA - seedB;
   });
 
   return shuffled.slice(0, 4);
 }
 
-export default function Home() {
-  const featuredProducts = getDailyFeaturedProducts();
+export default async function Home() {
+  const featuredProducts = await getDailyFeaturedProducts();
 
   return (
     <div className={styles.container}>
@@ -56,7 +64,15 @@ export default function Home() {
         </div>
         <div className={styles.grid}>
           {featuredProducts.map((product) => (
-            <ProductCard key={product.id} {...product} />
+            <ProductCard
+              key={product.id}
+              id={product.id}
+              name={product.name}
+              price={product.price}
+              category={product.category}
+              slug={product.slug}
+              image={product.image || "/placeholder.jpg"}
+            />
           ))}
         </div>
       </section>

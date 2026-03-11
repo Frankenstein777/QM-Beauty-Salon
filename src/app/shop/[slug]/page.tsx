@@ -8,21 +8,57 @@ import { Star, Minus, Plus, Heart, Share2 } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useToast } from "@/context/ToastContext";
 
-import { products } from "@/lib/data";
+interface ProductData {
+    id: string;
+    name: string;
+    price: string;
+    category: string;
+    slug: string;
+    image: string | null;
+}
 
 export default function ProductDetailPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = use(params); // Unwrapping params for Next.js 15
+    const [currentProduct, setCurrentProduct] = useState<ProductData | null>(null);
+    const [relatedProducts, setRelatedProducts] = useState<ProductData[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
 
-    type CatalogProduct = typeof products[0];
+    useEffect(() => {
+        const fetchProductData = async () => {
+            setIsLoading(true);
+            try {
+                // Fetch current product
+                const res = await fetch(`/api/products/${slug}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    setCurrentProduct(data);
 
-    // Find the actual product from our catalog
-    const currentProduct = products.find(p => p.slug === slug);
+                    // Fetch related products (all products for now, then filter)
+                    // (Ideally, the API endpoint would handle a `?category=...` query)
+                    const allRes = await fetch('/api/products');
+                    if (allRes.ok) {
+                        const allData = await allRes.json();
+                        const related = allData
+                            .filter((p: ProductData) => p.category === data.category && p.id !== data.id)
+                            .slice(0, 3);
+                        setRelatedProducts(related);
+                    }
+                }
+            } catch (error) {
+                console.error("Error fetching product details", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchProductData();
+    }, [slug]);
 
     // Add missing mock properties to current product that are needed
     const product = currentProduct ? {
         ...currentProduct,
         description: "Experience the epitome of elegance with this premium item. Crafted from premium materials, this piece features intricate detailing and a comfortable fit. Perfect for weddings, galas, and special occasions.",
-        images: [currentProduct.image],
+        images: [currentProduct.image || "/placeholder.jpg"],
         rating: 4.8,
         reviews: Math.floor(Math.random() * 200) + 10,
         sizes: ["Standard", "Large", "Custom"],
@@ -33,7 +69,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
         name: "Item Not Found",
         price: "$0",
         description: "This item could not be found in our catalog.",
-        images: ["/Autogele 1.png"],
+        images: ["/placeholder.jpg"],
         rating: 0,
         reviews: 0,
         sizes: ["Standard"],
@@ -131,6 +167,19 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
         });
         showToast(`${quantity}x ${product.name} added to your bag!`, "success");
     };
+
+    if (isLoading) {
+        return <div className={styles.container} style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Loading product details...</div>;
+    }
+
+    if (!currentProduct) {
+        return (
+            <div className={styles.container} style={{ minHeight: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '20px' }}>
+                <h2>Product Not Found</h2>
+                <Button href="/shop" variant="primary">Return to Shop</Button>
+            </div>
+        );
+    }
 
     return (
         <div className={styles.container}>
@@ -230,11 +279,23 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
             {/* Related Products */}
             <section className={styles.relatedSection}>
                 <h3 className={styles.sectionTitle}>You May Also Like</h3>
-                <div className={styles.relatedGrid}>
-                    {products.filter((p: CatalogProduct) => p.category === product.category && p.id !== product.id).slice(0, 3).map((p: CatalogProduct) => (
-                        <ProductCard key={p.id} {...p} />
-                    ))}
-                </div>
+                {relatedProducts.length > 0 ? (
+                    <div className={styles.relatedGrid}>
+                        {relatedProducts.map((p) => (
+                            <ProductCard
+                                key={p.id}
+                                id={p.id}
+                                name={p.name}
+                                price={p.price}
+                                category={p.category}
+                                slug={p.slug}
+                                image={p.image || "/placeholder.jpg"}
+                            />
+                        ))}
+                    </div>
+                ) : (
+                    <p style={{ textAlign: "center", color: "var(--gray-medium)" }}>No related products found yet.</p>
+                )}
             </section>
         </div>
     );

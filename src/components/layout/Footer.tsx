@@ -9,6 +9,24 @@ const Footer = () => {
     return (
         <footer className={styles.footer}>
             <div className={styles.container}>
+                <div className={styles.linktreeSection}>
+                    <h2 className={styles.linktreeTitle}>Connect With Us</h2>
+                    <div className={styles.linktreeGrid}>
+                        <a href="https://wa.me/14372630869" target="_blank" rel="noopener noreferrer" className={styles.linktreeBtn}>
+                            <MessageCircle /> Chat on WhatsApp
+                        </a>
+                        <a href="https://www.instagram.com/qmbeautysalon" target="_blank" rel="noopener noreferrer" className={styles.linktreeBtn}>
+                            <Instagram /> Follow on Instagram
+                        </a>
+                        <a href="https://facebook.com/queencyjones.eze" target="_blank" rel="noopener noreferrer" className={styles.linktreeBtn}>
+                            <Facebook /> Connect on Facebook
+                        </a>
+                        <a href="https://www.tiktok.com/@qmmakeover" target="_blank" rel="noopener noreferrer" className={styles.linktreeBtn}>
+                            <Video /> Watch on TikTok
+                        </a>
+                    </div>
+                </div>
+
                 <div className={styles.topSection}>
                     <div className={styles.brandColumn}>
                         <h2 className={styles.logo}>QM Beauty Salon<span className={styles.accent}>.</span></h2>
