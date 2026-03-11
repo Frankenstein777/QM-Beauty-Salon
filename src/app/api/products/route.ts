@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { v2 as cloudinary } from 'cloudinary';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
     try {
         const products = await prisma.product.findMany({
